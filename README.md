@@ -25,4 +25,4 @@ que le nombre proposé par le joueur.
 - [x] Le joueur doit avoir 10 essais pour trouver le nombre mystère
 - [x] Le joueur doit pouvoir recommencer une partie
 - [x] Le joueur doit pouvoir changer la difficulté du jeu
-- 
+- [x] Le jeu doit pouvoir enrengistrer le score d'un joueur
