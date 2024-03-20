@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 int generateNombre(int max) {
