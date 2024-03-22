@@ -1,4 +1,4 @@
-import 'package:nombre_mystere/model/Joueur.dart';
+import 'package:nombre_mystere/model/classe/Joueur.dart';
 import 'package:nombre_mystere/model/sql/bd.dart';
 import 'package:sqflite/sqflite.dart';
 

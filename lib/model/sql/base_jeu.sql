@@ -8,7 +8,8 @@ CREATE TABLE DIFFICULTE(
     nomDifficulte TEXT UNIQUE NOT NULL,
     rangeMin INTEGER NOT NULL,
     rangeMax INTEGER NOT NULL,
-    nbVirgules BOOLEAN NOT NULL
+    nbVirgules BOOLEAN NOT NULL,
+    nbEssais INTEGER NOT NULL
 );
 
 CREATE TABLE SCORE(

@@ -6,6 +6,13 @@ class ScorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: , builder: builder)
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Scores'),
+      ),
+      body: Center(
+        child: Text('Scores'),
+      ),
+    );
   }
 }
