@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-                onPressed: () => context.go('/regles'),
+                onPressed: () => context.go('/niveaux'),
                 child: Text('Jouer')),
             ElevatedButton(
                 onPressed: () => context.go('/regles'),

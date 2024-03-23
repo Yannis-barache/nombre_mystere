@@ -5,4 +5,3 @@ import 'package:nombre_mystere/MyApp.dart';
 void main() {
   runApp(const MyApp());
 }
-
