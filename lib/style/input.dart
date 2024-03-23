@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 
 class InputNombre extends StatelessWidget {
-  const InputNombre({super.key});
+  const InputNombre({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class InputNombre extends StatelessWidget {
         // by default, but the theme's error color if the input decorator
         // is in its error state.
         labelStyle: MaterialStateTextStyle.resolveWith(
-              (Set<MaterialState> states) {
+          (Set<MaterialState> states) {
             final Color color = states.contains(MaterialState.error)
                 ? Theme.of(context).colorScheme.error
                 : Colors.orange;
@@ -23,14 +22,19 @@ class InputNombre extends StatelessWidget {
           },
         ),
       ),
+      keyboardType: TextInputType.number, // Only allows numeric input
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly // Only allows digits
+      ],
       validator: (String? value) {
-        // Si la veleur est un nombre, on retourne null
-        if (value != null && double.tryParse(value) != null) {
-          return 'The name must be a string';
+        // If the value is not a number, return an error message
+        if (value != null && double.tryParse(value) == null) {
+          return 'The input must be a number';
         }
         return null;
       },
       autovalidateMode: AutovalidateMode.always,
     );
+    // 
   }
 }

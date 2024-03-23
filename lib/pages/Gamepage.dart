@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
+import 'package:nombre_mystere/const.dart';
 import 'package:nombre_mystere/style/input.dart';
 
 
@@ -25,7 +26,7 @@ class FindNumber extends State<GamePage> {
   int nbEssais = 0;
   int currentRangeMin = 0;
   int currentRangeMax = 0;
- 
+  String nomUser = leJoueur.pseudo;
 
   double calculateTextSize(BuildContext context, double screenHeight) {
     // Calculer la taille du texte en fonction de la hauteur de l'écran
@@ -207,9 +208,9 @@ class FindNumber extends State<GamePage> {
                             color: Colors.black,
                           ),
                         ),
-                      const Text(
-                          'Abdwu',
-                          style: TextStyle(
+                      Text(
+                          nomUser,
+                          style: const TextStyle(
                             fontSize: 35, // Taille fixe pour le moment
                             fontWeight: FontWeight.bold,
                             color: Colors.black,

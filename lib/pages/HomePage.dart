@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nombre_mystere/const.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
+  
+
+  bool isUserConnected() {
+    return leJoueur.id != -1;
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
+   void goIfUser(String path) {
+    if (isUserConnected()) {
+      context.go(path);
+    } else {
+      context.go('/login');
+    }
+  }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Nombre Mystere'),
@@ -15,14 +31,17 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-                onPressed: () => context.go('/niveaux'),
-                child: Text('Jouer')),
+                onPressed: () => {
+                  // verifier si le joueur est connecté
+                  goIfUser('/niveaux'),
+                },
+                child: const Text('Jouer')),
             ElevatedButton(
-                onPressed: () => context.go('/regles'),
-                child: Text('Afficher les scores')),
+                onPressed: () => goIfUser('/scores'),
+                child: const Text('Afficher les scores')),
             ElevatedButton(
-                onPressed: () => context.go('/regles') ,
-                child: Text('Regles')),
+                onPressed: () => goIfUser('/regles'),
+                child: const Text('Regles')),
           ],
         ),
       ),

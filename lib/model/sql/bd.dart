@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
+import 'package:nombre_mystere/model/classeBD/Joueur_BD.dart';
 import 'dart:async';
 
 class BD {
@@ -12,7 +13,7 @@ class BD {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('sqlite.db');
+    _database = await _initDB('jeu_bd.db');
     return _database!;
   }
 
@@ -21,13 +22,14 @@ class BD {
     final dbPath = await getDatabasesPath();
 
     final path = join(dbPath, filePath);
-    final db = await openDatabase(path, version: 1, onCreate: _createDB);
+    final db = await openDatabase(path, version: 1, onCreate: createDB);
     return db;
   }
 
 
-  Future<void> _createDB(Database db, int version) async {
+  Future<void> createDB(Database db, int version) async {
     await LevelBD().createTable(db);
+    await JoueurBD().createTable(db);
   }
 
   Future close() async {

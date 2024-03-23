@@ -6,6 +6,10 @@ class ScorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: , builder: builder)
+    return const Scaffold(
+      body: Center(
+        child: Text('Score Page'),
+      ),
+    );
   }
 }

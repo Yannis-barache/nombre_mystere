@@ -5,6 +5,7 @@ import 'package:nombre_mystere/pages/HomePage.dart';
 import 'package:nombre_mystere/pages/RulesPage.dart';
 import 'package:nombre_mystere/pages/LevelPage.dart';
 import 'package:nombre_mystere/pages/GamePage.dart';
+import 'package:nombre_mystere/pages/LoginPage.dart';
 
 final GlobalKey<NavigatorState> _goRouterKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _shellRouteKey = GlobalKey<NavigatorState>();
@@ -31,6 +32,14 @@ class AppRouter {
             },
           ),
           GoRoute(
+            // page de jeu avec l'id du niveau
+            path: 'login',
+            parentNavigatorKey: _goRouterKey,
+            builder: (context, state) {
+              return const LoginPage();
+            },
+          ),
+          GoRoute(
             path: 'niveaux',
             parentNavigatorKey: _goRouterKey,
             builder: (context, state) {
@@ -45,6 +54,14 @@ class AppRouter {
               return GamePage(idNiveau: int.parse(state.pathParameters['id']!));
             },
           ),
+          GoRoute(
+            path: 'score/:id',
+            parentNavigatorKey: _goRouterKey,
+            builder: (context, state) {
+              return const RulesPage();
+            },
+          ),
+          
         ],
       ),
     ],
