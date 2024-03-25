@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text('Jouer')),
             ElevatedButton(
-                onPressed: () => goIfUser('/scores'),
+                onPressed: () => goIfUser('/score/1'),
                 child: const Text('Afficher les scores')),
             ElevatedButton(
                 onPressed: () => goIfUser('/regles'),

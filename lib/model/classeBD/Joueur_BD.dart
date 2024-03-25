@@ -25,6 +25,21 @@ class JoueurBD{
     }
   }
 
+  Future<int> insertTestJoueur() async {
+    try {
+      final db = await BD.instance.database;
+      Joueur joueur = Joueur(pseudo: 'test');
+      await db.rawInsert(
+        '''INSERT INTO JOUEUR(pseudo) VALUES(?)''',
+        [joueur.pseudo]
+      );
+      return 1;
+    } catch (e) {
+      log(e.toString());
+      return -1;
+    }
+  }
+
   Future<int> insertJoueur(Joueur joueur) async {
     try {
       final db = await BD.instance.database;
@@ -62,6 +77,7 @@ Future<int> loginUser(String username) async {
   try {
     final db = await BD.instance.database;
     final queryResult = await db.rawQuery("SELECT * FROM JOUEUR WHERE pseudo = '$username'");
+    
     if (queryResult.isEmpty) {
       insertJoueur(Joueur(pseudo: username));
       final cherche = await db.rawQuery("SELECT * FROM JOUEUR WHERE pseudo = '$username'");
@@ -69,7 +85,9 @@ Future<int> loginUser(String username) async {
       return 1;
     }
     log(Joueur.fromMap(queryResult.first).toString());
-    leJoueur = Joueur.fromMap(queryResult.first);
+    final JTrouve  = Joueur.fromMap(queryResult.first);
+    leJoueur.pseudo = JTrouve.pseudo;
+    leJoueur.id = JTrouve.id;
     return 1;
   } catch (e) {
     log(e.toString());

@@ -58,7 +58,7 @@ class _LevelPageState extends State<LevelPage> {
                     children: // les boutonn avec le nom des levels et renvoie à la page jeu avec l'id du level
                       snapshot.data!.map((e) => ElevatedButton(
                         onPressed: () {
-                          GoRouter.of(context).go('/game/${e.id}');
+                          context.go('/game/${e.id}');
                         },
                         child: Text(e.nomLevel),
                       )).toList(), 

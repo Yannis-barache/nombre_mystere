@@ -22,7 +22,6 @@ class LevelBD {
         await db.insert(
           'DIFFICULTE',
           level.toMap(),
-          conflictAlgorithm: ConflictAlgorithm.replace,
         );
       }
 
@@ -62,7 +61,7 @@ class LevelBD {
       )'''
     );
     //create(level: Level(id: 1, nomLevel: "Facile", rangeMin: 0, rangeMax: 100, nbEssais: 10, avecFloat: false));
-    log("Table created");
+    log("Table created III");
     int result = await insertLevel();
     log("Insert result: $result");
    }

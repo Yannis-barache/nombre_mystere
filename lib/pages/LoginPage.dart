@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
     }
     leJoueur.pseudo = username;
     JoueurBD().loginUser(username);
-    log("$username est connecté");
+    log("${leJoueur.pseudo} est connecté , id = ${leJoueur.id}");
     return 0;
   }
 

@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
 import 'package:nombre_mystere/model/classeBD/Joueur_BD.dart';
+import 'package:nombre_mystere/model/classeBD/Score_BD.dart';
+
 import 'dart:async';
 
 class BD {
@@ -13,7 +17,7 @@ class BD {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('jeu_bd.db');
+    _database = await _initDB('ttttt.db');
     return _database!;
   }
 
@@ -28,14 +32,43 @@ class BD {
 
 
   Future<void> createDB(Database db, int version) async {
-    await LevelBD().createTable(db);
-    await JoueurBD().createTable(db);
-  }
+    try {
+      await db.execute(
+        '''CREATE TABLE JOUEUR(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          pseudo TEXT NOT NULL UNIQUE
+        )'''
+      );
 
-  Future close() async {
-    final db = await instance.database;
+      await db.execute(
+        '''CREATE TABLE DIFFICULTE(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nomLevel TEXT NOT NULL,
+          rangeMin INTEGER NOT NULL,
+          rangeMax INTEGER NOT NULL,
+          nbEssais INTEGER NOT NULL,
+          avecFloat BOOLEAN NOT NULL
+        )'''
+      );
 
-    db.close();
+      await db.execute('''
+        CREATE TABLE Score(
+          idScore INTEGER PRIMARY KEY AUTOINCREMENT,
+          idLevel INTEGER NOT NULL,
+          idUser INTEGER NOT NULL,
+          nbEssai INTEGER NOT NULL,
+          FOREIGN KEY(idLevel) REFERENCES Level(idLevel),
+          FOREIGN KEY(idUser) REFERENCES Joueur(id)
+        )
+      ''');
+
+      LevelBD().insertLevel();
+      JoueurBD().insertTestJoueur();
+      ScoreBD().insertTestScore();
+    } catch (e) {
+      log(e.toString());
+    }
+
   }
 
 

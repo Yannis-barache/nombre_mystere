@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 class Level{
   final int id;
   final String nomLevel;
@@ -21,14 +23,15 @@ class Level{
   Map<String, Object?> toMap() {
     
     // ajouter : 'nbEssais': nbEssais in BD
+
     
     return {
       'id': id,
       'nomLevel': nomLevel,
       'rangeMin': rangeMin,
       'rangeMax': rangeMax,
-      'nbEssais': avecFloat,
-      'avecFloat': avecFloat
+      'nbEssais': nbEssais,
+      'avecFloat': avecFloat ? 1 : 0,
     };
   }
 
