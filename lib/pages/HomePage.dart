@@ -65,39 +65,33 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () => context.go('/jeu'),
                     child: Text('Jouer'),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: Colors.black,
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () => context.go('/regles'),
                     child: Text('Afficher les scores'),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: Colors.black,
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () => context.go('/regles'),
                     child: Text('Règles'),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
                       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: Colors.black,
                     ),
                   ),
                   Row(
@@ -123,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.transparent,
                                 child: IconButton(
                                   onPressed: () async {
-                                    await launch('https://github.com/Yannis-barache/nombre_mystere');
+                                    await launchUrl('https://github.com/Yannis-barache/nombre_mystere' as Uri);
                                   },
                                   icon: FaIcon(
                                     FontAwesomeIcons.github,
