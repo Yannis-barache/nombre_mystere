@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ElevatedButton(
-                    onPressed: () => goIfUser('/jeu'),
+                    onPressed: () => goIfUser('/niveaux'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

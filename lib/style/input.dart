@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class InputNombre extends StatelessWidget {
-  const InputNombre({Key? key});
+  
+  final TextEditingController controller;
+  const InputNombre({Key? key,required this.controller}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller, // Added controller parameter
       decoration: InputDecoration(
+        
         border: const OutlineInputBorder(),
         labelText: 'Entrer votre nombre',
         // The MaterialStateProperty's value is a text style that is orange

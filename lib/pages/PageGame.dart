@@ -1,22 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nombre_mystere/model/Jeu.dart';
 import 'package:flutter/services.dart';
+import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
+import 'package:nombre_mystere/style/input.dart';
 
 class PageGame extends StatefulWidget {
 
-  final int max;
-  final int min;
-  final int nombreMystere;
-  final int essaisMax;
+
+  final int idNiveau;
 
 
   const PageGame({
     Key? key,
-    required this.max,
-    required this.min,
-    required this.nombreMystere,
-    required this.essaisMax,
+    required this.idNiveau,
   }) : super(key: key);
 
   @override
@@ -26,6 +25,12 @@ class PageGame extends StatefulWidget {
 class _PageGameState extends State<PageGame> {
 
   final TextEditingController _controller = TextEditingController();
+  final LevelBD levelBD = LevelBD();
+  int? maxNiveau;
+  int? minNiveau;
+  int? nombreMystere;
+  int? essaisMax;
+
   int essais = 0;
   int? min;
   int? max;
@@ -33,8 +38,25 @@ class _PageGameState extends State<PageGame> {
   @override
   void initState() {
     super.initState();
-    min = widget.min;
-    max = widget.max;
+
+    fetchLevel();
+
+
+  }
+
+  void fetchLevel() {
+    levelBD.levelById(widget.idNiveau).then((value) {
+      setState(() {
+        maxNiveau = value.rangeMax;
+        minNiveau = value.rangeMin;
+        nombreMystere = Jeu.generateNombre(minNiveau!, maxNiveau!);
+        essaisMax = value.nbEssais;
+        log('Nombre mystère : $nombreMystere');
+        min = minNiveau;
+        max = maxNiveau;
+        
+      });
+    });
   }
 
   @override
@@ -52,8 +74,8 @@ class _PageGameState extends State<PageGame> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Nombre mystère : ${widget.nombreMystere}',
-                    style: TextStyle(
+                  Text('Nombre mystère : $nombreMystere',
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
@@ -63,29 +85,19 @@ class _PageGameState extends State<PageGame> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(min.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _controller,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Entrez un nombre',
-                ),
-              ),
+              child: InputNombre(controller: _controller),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(max.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -99,8 +111,8 @@ class _PageGameState extends State<PageGame> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Essais : ${essais}',
-                style: TextStyle(
+              child: Text('Essais : $essais',
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -125,7 +137,7 @@ class _PageGameState extends State<PageGame> {
     return;
   }
   final int nombre = int.parse(nombreStr);
-  final int resultat = Jeu.compareNombre(widget.nombreMystere, nombre);
+  final int resultat = Jeu.compareNombre(nombreMystere, nombre, maxNiveau);
   if (resultat == 0) {
     debugPrint('Gagné');
   } else {
@@ -137,7 +149,7 @@ class _PageGameState extends State<PageGame> {
         min = nombre;
       }
     });
-    if (essais == widget.essaisMax) {
+    if (essais == essaisMax) {
       context.go('/lose');
     }
   }

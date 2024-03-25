@@ -81,13 +81,15 @@ Future<int> loginUser(String username) async {
     if (queryResult.isEmpty) {
       insertJoueur(Joueur(pseudo: username));
       final cherche = await db.rawQuery("SELECT * FROM JOUEUR WHERE pseudo = '$username'");
-      leJoueur = Joueur.fromMap(cherche.first);
+      final jTrouve  = Joueur.fromMap(cherche.first);
+      leJoueur.pseudo = jTrouve.pseudo;
+      leJoueur.id = jTrouve.id;
       return 1;
     }
     log(Joueur.fromMap(queryResult.first).toString());
-    final JTrouve  = Joueur.fromMap(queryResult.first);
-    leJoueur.pseudo = JTrouve.pseudo;
-    leJoueur.id = JTrouve.id;
+    final jTrouve  = Joueur.fromMap(queryResult.first);
+    leJoueur.pseudo = jTrouve.pseudo;
+    leJoueur.id = jTrouve.id;
     return 1;
   } catch (e) {
     log(e.toString());

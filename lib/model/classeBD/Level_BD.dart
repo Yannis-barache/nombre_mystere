@@ -67,7 +67,7 @@ class LevelBD {
    }
 
 
-    static Future<Level> levelById(int id) async {
+    Future<Level> levelById(int id) async {
     final db = await BD.instance.database;
     final queryResult = await db.rawQuery("SELECT * FROM DIFFICULTE WHERE id = $id");
     log(queryResult.toString());

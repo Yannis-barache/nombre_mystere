@@ -1,15 +1,15 @@
 import 'dart:math';
 
 class Jeu {
-  static int generateNombre(int max) {
+  static int generateNombre(int min, int max) {
     final Random random = Random();
-    return random.nextInt(max);
+    return min + random.nextInt(max - min) + 1;
   }
 
-  static int compareNombre(int nombreMystere, int nombre) {
+  static int compareNombre( nombreMystere, int nombre, int? leMax) {
     if (nombreMystere == nombre) {
       return 0;
-    } else if (nombreMystere < nombre) {
+    } else if (nombreMystere < nombre && nombre <= leMax!) {
       return 1;
     } else {
       return -1;
