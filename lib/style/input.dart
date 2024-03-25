@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class InputNombre extends StatelessWidget {
-  
   final TextEditingController controller;
-  const InputNombre({Key? key,required this.controller}) : super(key: key);
-  
+  const InputNombre({Key? key,
+   required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller, // Added controller parameter
+      controller: controller,
       decoration: InputDecoration(
-        
         border: const OutlineInputBorder(),
         labelText: 'Entrer votre nombre',
         // The MaterialStateProperty's value is a text style that is orange
@@ -31,13 +30,6 @@ class InputNombre extends StatelessWidget {
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.digitsOnly // Only allows digits
       ],
-      validator: (String? value) {
-        // If the value is not a number, return an error message
-        if (value != null && double.tryParse(value) == null) {
-          return 'The input must be a number';
-        }
-        return null;
-      },
       autovalidateMode: AutovalidateMode.always,
     );
     // 
