@@ -7,10 +7,22 @@ Nous devons réaliser un petit jeu mobile et dans notre cas un jeu de nombre mys
 
 ## Les règles du jeu
 
-Le jeu consiste à trouver un nombre mystère compris entre 0 et 100 de base mais on peut le changer. 
-Le joueur a 10 essais pour trouver le nombre mystère. 
-A chaque essai, le jeu indique si le nombre mystère est plus grand ou plus petit 
-que le nombre proposé par le joueur.
+Le jeu consiste à trouver un nombre mystère compris entre deux bornes qui vont être définis par le 
+niveau de difficulté choisi par le joueur.
+A chaque essai, le jeu va mettre à jour les bornes qui sont affichés sur l'écran
+
+### Exemple
+
+Si le nombre mystère est `34` et que les bornes sont `1` et `100` et que le joueur propose `50`,
+le jeu va mettre à jour le 100 pour réduire l'intervalle de recherche.
+
+## Niveaux de difficulté
+
+
+
+## Technologies utilisées
+
+[![Les technologies](https://skillicons.dev/icons?i=dart,flutter,androidstudio,)](https://skillicons.dev)
 
 ## Membres du groupe
 

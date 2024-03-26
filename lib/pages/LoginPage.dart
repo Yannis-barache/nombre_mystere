@@ -6,10 +6,11 @@ import 'package:nombre_mystere/const.dart';
 import 'package:nombre_mystere/model/classeBD/Joueur_BD.dart';
 
 
+
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
-  int connecteUser(String username) {
+   int connecteUser(String username) {
     if (username.isEmpty) {
       log("Nom d'utilisateur vide");
       return -1;
@@ -43,8 +44,24 @@ class LoginPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // vérifier si le joueur est connecté
-                connecteUser(_controller.text);
-                context.go("/");
+                var etat = connecteUser(_controller.text);
+                debugPrint('Etat : $etat');
+                if (etat == 0) {
+                  // si le joueur est connecté, on le redirige vers la page d'accueil
+                  context.go('/niveaux');
+                }
+                else {
+                  // si le joueur n'est pas connecté, on affiche un message d'erreur
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Erreur lors de la connexion'),
+                    ),
+                  );
+
+                }
+
+
+
               },
               child: Text('Valider'),
             ),
