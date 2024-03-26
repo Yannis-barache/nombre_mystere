@@ -79,7 +79,7 @@ Future<int> loginUser(String username) async {
     final queryResult = await db.rawQuery("SELECT * FROM JOUEUR WHERE pseudo = '$username'");
     
     if (queryResult.isEmpty) {
-      insertJoueur(Joueur(pseudo: username));
+      await insertJoueur(Joueur(pseudo: username));
       final cherche = await db.rawQuery("SELECT * FROM JOUEUR WHERE pseudo = '$username'");
       final jTrouve  = Joueur.fromMap(cherche.first);
       leJoueur.pseudo = jTrouve.pseudo;
