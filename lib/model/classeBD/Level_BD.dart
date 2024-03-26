@@ -10,10 +10,10 @@ class LevelBD {
     try {
       final db = await BD.instance.database;
 
-      Level level = Level(id: 1, nomLevel: "Facile", rangeMin: 0, rangeMax: 10, nbEssais: 3, avecFloat: false);
+      Level level = Level(id: 1, nomLevel: "Facile", rangeMin: 0, rangeMax: 10, nbEssais: 4, avecFloat: false);
       Level level2 = Level(id: 2, nomLevel: "Moyen", rangeMin: 0, rangeMax: 100, nbEssais: 10, avecFloat: false);
-      Level level3 = Level(id: 3, nomLevel: "Difficile", rangeMin: -1000, rangeMax: 500, nbEssais: 10, avecFloat: false);
-      Level level4 = Level(id: 4, nomLevel: "Extreme", rangeMin: 0, rangeMax: 10, nbEssais: 10, avecFloat: true);
+      Level level3 = Level(id: 3, nomLevel: "Difficile", rangeMin: -1000, rangeMax: 500, nbEssais: 13, avecFloat: false);
+      Level level4 = Level(id: 4, nomLevel: "Extreme", rangeMin: 0, rangeMax: 10, nbEssais: 15, avecFloat: true);
 
       List<Level> levels = [level, level2, level3, level4];
 
