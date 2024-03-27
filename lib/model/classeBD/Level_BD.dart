@@ -24,6 +24,7 @@ class LevelBD {
           level.toMap(),
         );
       }
+      log("Insert I");
 
       return 1;
 
@@ -61,7 +62,7 @@ class LevelBD {
       )'''
     );
     //create(level: Level(id: 1, nomLevel: "Facile", rangeMin: 0, rangeMax: 100, nbEssais: 10, avecFloat: false));
-    log("Table created III");
+    log("Insert I");
     int result = await insertLevel();
     log("Insert result: $result");
    }

@@ -12,6 +12,9 @@ class ScoreBD {
       await db.rawInsert('''
         INSERT INTO Score(idLevel, idUser, nbEssai) VALUES(1, 1, 5)
       ''');
+
+      log("Insert III");
+
     } catch (e) {
       log(e.toString());
       return -1;

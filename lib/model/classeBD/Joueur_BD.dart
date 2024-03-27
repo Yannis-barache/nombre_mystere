@@ -13,7 +13,8 @@ class JoueurBD{
       await db.execute(
         '''CREATE TABLE JOUEUR(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          pseudo TEXT NOT NULL UNIQUE
+          pseudo TEXT NOT NULL UNIQUE,
+          currentLevel INTEGER NOT NULL DEFAULT 1
         )'''
       );
 
@@ -33,6 +34,16 @@ class JoueurBD{
         '''INSERT INTO JOUEUR(pseudo) VALUES(?)''',
         [joueur.pseudo]
       );
+
+      Joueur joueur2 = Joueur.withId(id: 2, pseudo: "test2", currLevel: 2)
+;      await db.rawInsert(
+          '''INSERT INTO JOUEUR(pseudo, currentLevel) VALUES(?,?)''',
+          [joueur2.pseudo, joueur2.currLevel]
+      );
+
+
+      log("Insert II");
+
       return 1;
     } catch (e) {
       log(e.toString());
@@ -84,12 +95,14 @@ Future<int> loginUser(String username) async {
       final jTrouve  = Joueur.fromMap(cherche.first);
       leJoueur.pseudo = jTrouve.pseudo;
       leJoueur.id = jTrouve.id;
+      leJoueur.currLevel = jTrouve.currLevel;
       return 1;
     }
     log(Joueur.fromMap(queryResult.first).toString());
     final jTrouve  = Joueur.fromMap(queryResult.first);
     leJoueur.pseudo = jTrouve.pseudo;
     leJoueur.id = jTrouve.id;
+    leJoueur.currLevel = jTrouve.currLevel;
     return 1;
   } catch (e) {
     log(e.toString());
