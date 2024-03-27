@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nombre_mystere/model/Jeu.dart';
+import 'package:nombre_mystere/model/classe/Jeu.dart';
 import 'package:flutter/services.dart';
 import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
 import 'package:nombre_mystere/style/input.dart';
