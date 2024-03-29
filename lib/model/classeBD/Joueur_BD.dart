@@ -110,4 +110,28 @@ Future<int> loginUser(String username) async {
   }
 }
 
+Future<int> unlockNextLevel(nbEssai) async{
+  if (leJoueur.id == -1) {
+    return -1;
+  }
+
+  try {
+    final score = nbEssai * leJoueur.currLevel;
+    const maxLevel = 4;
+    final db = await BD.instance.database;
+
+    if (leJoueur.currLevel >= maxLevel) {
+      return 1;
+    }
+    await db.rawQuery("UPDATE JOUEUR SET currentLevel = currentLevel + 1 WHERE id = ${leJoueur.id}"); 
+    leJoueur.currLevel += 1;
+    return 1;
+
+  } catch (e) {
+    log(e.toString());
+    return -1;  
+  }
+
+}
+
 }

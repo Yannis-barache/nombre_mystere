@@ -4,7 +4,7 @@ import 'package:nombre_mystere/model/classe/level.dart';
 import 'package:nombre_mystere/pages/HomePage.dart';
 import 'package:nombre_mystere/pages/RulesPage.dart';
 import 'package:nombre_mystere/pages/PageGame.dart';
-
+import 'package:nombre_mystere/pages/GameOver.dart';
 import 'package:nombre_mystere/pages/LevelPage.dart';
 import 'package:nombre_mystere/pages/LoginPage.dart';
 import 'package:nombre_mystere/pages/ScorePage.dart';
@@ -59,7 +59,15 @@ class AppRouter {
               return const ScorePage();
             },
           ),
-          
+          GoRoute(
+            path: 'gameover/:result/:nbEssais',
+            parentNavigatorKey: _goRouterKey,
+            builder: (context, state) {
+              final String result = state.pathParameters['result']!;
+              final int nbEssais = int.parse(state.pathParameters['nbEssais']!);
+              return GameOver(result: result,nbEssais: nbEssais);
+            },
+          ),
         ],
       ),
     ],

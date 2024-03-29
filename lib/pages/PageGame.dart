@@ -2,10 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nombre_mystere/const.dart';
 import 'package:nombre_mystere/model/classe/Jeu.dart';
 import 'package:flutter/services.dart';
+import 'package:nombre_mystere/model/classeBD/Score_BD.dart';
 import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
 import 'package:nombre_mystere/style/input.dart';
+
+import '../model/classe/Score.dart';
 
 class PageGame extends StatefulWidget {
   final int idNiveau;
@@ -45,6 +49,7 @@ class _PageGameState extends State<PageGame> {
         minNiveau = value.rangeMin;
         nombreMystere = Jeu.generateNombre(minNiveau!, maxNiveau!);
         essaisMax = value.nbEssais;
+        essais = essaisMax!;
         log('Nombre mystère : $nombreMystere');
         min = minNiveau;
         max = maxNiveau;
@@ -156,9 +161,13 @@ class _PageGameState extends State<PageGame> {
     final int resultat = Jeu.compareNombre(nombreMystere, nombre);
     if (resultat == 0) {
       debugPrint('Gagné');
+      Score sc = Score(idScore: -1, idLevel: widget.idNiveau, idUser: leJoueur.id, nbEssai: essais);
+      log('Score : ${sc.toMap().toString()}');
+      ScoreBD().insertScoreMap(widget.idNiveau, leJoueur.id, essais);
+      context.go('/gameover/win/$essais');
     } else {
       setState(() {
-        essais = essais + 1;
+        essais = essais - 1;
         if (resultat == 1) {
           max = nombre;
         } else {
@@ -166,8 +175,8 @@ class _PageGameState extends State<PageGame> {
         }
         message = null;
       });
-      if (essais == essaisMax) {
-        context.go('/lose');
+      if (essais <= 0) {
+        context.go('/gameover/perdu/$essais');
       }
     }
   }

@@ -60,7 +60,7 @@ class _ScorePageState extends State<ScorePage> {
                 final score = snapshot.data![index];
                 return ListTile(
                   title: Text('Level: ${score.idLevel}'),
-                  subtitle: Text('Nombre d\'essais: ${score.nbEssai}'),
+                  subtitle: Text('Nombre d\'essais restant : ${score.nbEssai}'),
                 );
               },
             );
