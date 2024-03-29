@@ -26,6 +26,18 @@ class JoueurBD{
     }
   }
 
+  Future<List<Joueur>> getAllJoueurs() async {
+    try {
+      final db = await BD.instance.database;
+      final queryResult = await db.rawQuery("SELECT * FROM JOUEUR");
+      log(queryResult.toString());
+      return queryResult.map((e) => Joueur.fromMap(e)).toList();
+    } catch (e) {
+      log(e.toString());
+      return [Joueur(pseudo: "error")];
+    }
+  }
+
   Future<int> insertTestJoueur() async {
     try {
       final db = await BD.instance.database;

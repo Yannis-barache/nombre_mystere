@@ -85,8 +85,8 @@ class ScoreBD {
     try {
         final db = await BD.instance.database;
         final queryResult = await db.rawQuery("SELECT * FROM Score WHERE idUser = $idUser");
-        log(queryResult.toString());
-        log("${queryResult.map((e) => Score.fromJson(e)).toList()}");
+        // log(queryResult.toString());
+        // log("${queryResult.map((e) => Score.fromJson(e)).toList()}");
         return queryResult.map((e) => Score.fromJson(e)).toList();
     } catch (e) {
       log(e.toString());
