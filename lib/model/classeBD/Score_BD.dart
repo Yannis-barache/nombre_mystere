@@ -68,6 +68,19 @@ class ScoreBD {
     }
   }
 
+    Future<List<Score>> getScoresByLevel(idLevel) async { 
+      try{
+        final db = await BD.instance.database;
+        final queryResult = await db.rawQuery("SELECT * FROM Score WHERE idLevel = $idLevel ORDER BY nbEssai DESC");
+        log(queryResult.toString());
+        return queryResult.map((e) => Score.fromJson(e)).toList();
+      } catch (e) {
+        log(e.toString());
+        return [Score(idScore: -1, idLevel: -1, idUser: -1, nbEssai: -1)];
+      }
+        
+    }
+
   Future<List<Score>> getScores() async { 
     try {
         final db = await BD.instance.database;
@@ -98,4 +111,4 @@ class ScoreBD {
 
 
 
-}
+    }
