@@ -1,22 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nombre_mystere/model/Jeu.dart';
+import 'package:nombre_mystere/const.dart';
+import 'package:nombre_mystere/model/classe/Jeu.dart';
 import 'package:flutter/services.dart';
+import 'package:nombre_mystere/model/classeBD/Score_BD.dart';
+import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
+import 'package:nombre_mystere/style/input.dart';
+
+import '../model/classe/Score.dart';
 
 class PageGame extends StatefulWidget {
-
-  final int max;
-  final int min;
-  final int nombreMystere;
-  final int essaisMax;
-
+  final int idNiveau;
 
   const PageGame({
     Key? key,
-    required this.max,
-    required this.min,
-    required this.nombreMystere,
-    required this.essaisMax,
+    required this.idNiveau,
   }) : super(key: key);
 
   @override
@@ -24,17 +24,37 @@ class PageGame extends StatefulWidget {
 }
 
 class _PageGameState extends State<PageGame> {
+  final TextEditingController leController = TextEditingController();
+  final LevelBD levelBD = LevelBD();
+  int? maxNiveau;
+  int? minNiveau;
+  int? nombreMystere;
+  int? essaisMax;
 
-  final TextEditingController _controller = TextEditingController();
   int essais = 0;
   int? min;
   int? max;
+  String? message;
 
   @override
   void initState() {
     super.initState();
-    min = widget.min;
-    max = widget.max;
+    fetchLevel();
+  }
+
+  void fetchLevel() {
+    levelBD.levelById(widget.idNiveau).then((value) {
+      setState(() {
+        maxNiveau = value.rangeMax;
+        minNiveau = value.rangeMin;
+        nombreMystere = Jeu.generateNombre(minNiveau!, maxNiveau!);
+        essaisMax = value.nbEssais;
+        essais = essaisMax!;
+        log('Nombre mystère : $nombreMystere');
+        min = minNiveau;
+        max = maxNiveau;
+      });
+    });
   }
 
   @override
@@ -52,8 +72,9 @@ class _PageGameState extends State<PageGame> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Nombre mystère : ${widget.nombreMystere}',
-                    style: TextStyle(
+                  Text(
+                    'Nombre mystère : $nombreMystere',
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
@@ -62,30 +83,22 @@ class _PageGameState extends State<PageGame> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(min.toString(),
-                style: TextStyle(
+              child: Text(
+                min.toString(),
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
             ),
-            Padding(
+             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: _controller,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Entrez un nombre',
-                ),
-              ),
+              child: InputNombre(controller: leController)
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(max.toString(),
-                style: TextStyle(
+              child: Text(
+                max.toString(),
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -99,12 +112,24 @@ class _PageGameState extends State<PageGame> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Essais : ${essais}',
-                style: TextStyle(
+              child: Text(
+                'Essais : $essais',
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
             ),
+            if (message != null)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  message!,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -113,33 +138,46 @@ class _PageGameState extends State<PageGame> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    leController.dispose();
     super.dispose();
   }
 
   void _onPressed() {
-  final String nombreStr = _controller.text;
-  debugPrint('Nombre : $nombreStr');
-  if (nombreStr.isEmpty || int.tryParse(nombreStr) == null) {
-    debugPrint('Invalid number');
-    return;
-  }
-  final int nombre = int.parse(nombreStr);
-  final int resultat = Jeu.compareNombre(widget.nombreMystere, nombre);
-  if (resultat == 0) {
-    debugPrint('Gagné');
-  } else {
-    setState(() {
-      essais = essais + 1;
-      if (resultat == 1) {
-        max = nombre;
-      } else {
-        min = nombre;
-      }
-    });
-    if (essais == widget.essaisMax) {
-      context.go('/lose');
+    final String nombreStr = leController.text;
+    debugPrint('Nombre : $nombreStr');
+    if (nombreStr.isEmpty || int.tryParse(nombreStr) == null) {
+      debugPrint('Invalid number');
+      return;
     }
-  }
+    final int nombre = int.parse(nombreStr);
+    log("Nombre : $nombre - min : $minNiveau  -  max : $maxNiveau");
+    if (nombre < min! || nombre > max!) {
+      setState(() {
+        message = 'Le nombre doit être compris entre $min et $max';
+        log('Le nombre doit être compris entre $min et $max');
+      });
+      return;
+    }
+    final int resultat = Jeu.compareNombre(nombreMystere, nombre);
+    if (resultat == 0) {
+      debugPrint('Gagné');
+      Score sc = Score(idScore: -1, idLevel: widget.idNiveau, idUser: leJoueur.id, nbEssai: essais);
+      log('Score : ${sc.toMap().toString()}');
+      ScoreBD().insertScoreMap(widget.idNiveau, leJoueur.id, essais);
+      context.go('/gameover/win/$essais');
+    } else {
+      setState(() {
+        essais = essais - 1;
+        if (resultat == 1) {
+          max = nombre;
+        } else {
+          min = nombre;
+        }
+        message = null;
+      });
+      if (essais <= 0) {
+        context.go('/gameover/perdu/$essais');
+      }
+    }
   }
 }

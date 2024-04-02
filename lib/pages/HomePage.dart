@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nombre_mystere/const.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -15,12 +17,28 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+  bool isUserConnected() {
+    return leJoueur.id != -1;
+  }
+
+
+   void goIfUser(String path) {
+    if (isUserConnected()) {
+      context.go(path);
+    } else {
+      context.go('/login');
+    }
+  }
+
+  
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         automaticallyImplyLeading: false,
-        title: Align(
+        title: const Align(
           alignment: Alignment.center,
           child: Text(
             'Nombre mystère',
@@ -31,7 +49,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: false,
         elevation: 2,
       ),
@@ -59,46 +77,40 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Text(
                     'Bienvenue sur notre appli',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ElevatedButton(
-                    onPressed: () => context.go('/jeu'),
-                    child: Text('Jouer'),
+                    onPressed: () => goIfUser('/niveaux'),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                      onPrimary: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: Colors.black,
                     ),
+                    child: const Text('Jouer'),
                   ),
                   ElevatedButton(
-                    onPressed: () => context.go('/regles'),
-                    child: Text('Afficher les scores'),
+                    onPressed: () => goIfUser('/score/${leJoueur.id}'),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                      onPrimary: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: Colors.black,
                     ),
+                    child: const Text('Afficher les scores'),
                   ),
                   ElevatedButton(
-                    onPressed: () => context.go('/regles'),
-                    child: Text('Règles'),
+                    onPressed: () => goIfUser('/regles'),
                     style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor,
-                      onPrimary: Colors.white,
-                      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: Colors.black,
                     ),
+                    child: const Text('Règles'),
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
@@ -114,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text(
                                 '©Tous droits réservés , 2024',
-                                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                   fontFamily: 'Readex Pro',
                                   color: Theme.of(context).colorScheme.secondary,
                                 ),
@@ -123,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.transparent,
                                 child: IconButton(
                                   onPressed: () async {
-                                    await launch('https://github.com/Yannis-barache/nombre_mystere');
+                                    await launchUrl('https://github.com/Yannis-barache/nombre_mystere' as Uri);
                                   },
                                   icon: FaIcon(
                                     FontAwesomeIcons.github,
