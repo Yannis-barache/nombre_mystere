@@ -13,13 +13,10 @@ class InputNombre extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        labelText: 'Entrer votre nombre',
+        labelText: '',
         labelStyle: MaterialStateTextStyle.resolveWith(
           (Set<MaterialState> states) {
-            final Color color = states.contains(MaterialState.error)
-                ? Theme.of(context).colorScheme.error
-                : Colors.orange;
-            return TextStyle(color: color, letterSpacing: 1.3);
+            return TextStyle(color: Colors.black, letterSpacing: 1.3);
           },
         ),
       ),

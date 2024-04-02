@@ -45,7 +45,6 @@ class _PageGameState extends State<PageGame> {
         minNiveau = value.rangeMin;
         nombreMystere = Jeu.generateNombre(minNiveau!, maxNiveau!);
         essaisMax = value.nbEssais;
-        log('Nombre mystère : $nombreMystere');
         min = minNiveau;
         max = maxNiveau;
       });
@@ -53,68 +52,101 @@ class _PageGameState extends State<PageGame> {
   }
 
   int get essaisRestants => essaisMax != null ? essaisMax! - essais : 0;
-
+  String get niveauDifficulte {
+  if (widget.idNiveau == 1) {
+    return 'Facile';
+  } else if (widget.idNiveau == 2) {
+    return 'Moyen';
+  } else if (widget.idNiveau == 3) {
+    return 'Difficile';
+  }
+  return 'Extreme';
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Jeu'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                min.toString(),
-                style: const TextStyle(
-                  fontSize: 16,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(padding: const EdgeInsets.all(20.0),
+                child: Text('Trouvez le nombre mystère',
+                  style: const TextStyle(
+                    fontSize: 24,
+                  ),
                 ),
               ),
-            ),
-             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InputNombre(controller: leController)
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                max.toString(),
-                style: const TextStyle(
-                  fontSize: 16,
+              Padding(padding: const EdgeInsets.all(20.0),
+                child: Text(niveauDifficulte,
+                  style: const TextStyle(
+                    fontSize: 24,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: _onPressed,
-                child: const Text('Valider'),
+              Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Expanded(
+      child: Center(
+        child: Text(
+          min.toString()+ " < ",
+          style: const TextStyle(
+            fontSize: 32,
+          ),
+        ),
+      ),
+    ),
+    Expanded(
+      child: InputNombre(controller: leController),
+    ),
+    Expanded(
+      child: Center(
+        child: Text(
+          " < "+max.toString(),
+          style: const TextStyle(
+            fontSize: 32,
+          ),
+        ),
+      ),
+    ),
+  ],
+),
+              Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: ElevatedButton(
+                    onPressed: _onPressed,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
+                    ),
+                    child: const Text('Valider',
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
+              Text(
                 'Essais restants : $essaisRestants',
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 24,
                 ),
               ),
-            ),
-            if (message != null)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
+              if (message != null)
+                Text(
                   message!,
                   style: const TextStyle(
                     fontSize: 16,
                     color: Colors.red,
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

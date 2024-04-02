@@ -41,33 +41,35 @@ class _LevelPageState extends State<LevelPage> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                levelBD.showColumns();
-                levelBD.insertLevel();
-                fetchLevels();
-              },
-              child: const Text('Refresh'),
-            ),
             FutureBuilder<List>(
-              future: levels,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: // les boutonn avec le nom des levels et renvoie à la page jeu avec l'id du level
-                      snapshot.data!.map((e) => ElevatedButton(
-                        onPressed: () {
-                          context.go('/jeu/${e.id}');
-                        },
-                        child: Text(e.nomLevel),
-                      )).toList(), 
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
+          future: levels,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Column(
+                children: snapshot.data!.expand((e) => [
+                  ElevatedButton(
+                    onPressed: () {
+                      context.go('/jeu/${e.id}');
+                    },
+                    child: Text(e.nomLevel),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                      onPrimary: Colors.white,
+                    )
+
+                  ),
+                  const SizedBox(height: 20),
+                ]).toList(),
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
+          },
+        ),
+
+
           ],
         ),
       ),
