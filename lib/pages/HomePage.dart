@@ -31,12 +31,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  
-
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
         title: const Align(
           alignment: Alignment.center,
@@ -60,7 +58,6 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               child: Column(
-                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Align(
@@ -82,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     onPressed: () => goIfUser('/niveaux'),
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white, backgroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -93,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     onPressed: () => goIfUser('/score/${leJoueur.id}'),
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white, backgroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -104,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                   ElevatedButton(
                     onPressed: () => goIfUser('/regles'),
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white, backgroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -117,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Expanded(
                         child: Container(
-                          width: 81,
+                          width: double.infinity,
                           height: 100,
                           color: Colors.black,
                           child: Row(

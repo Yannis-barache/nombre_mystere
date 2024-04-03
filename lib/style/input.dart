@@ -13,25 +13,19 @@ class InputNombre extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
-        labelText: 'Entrer votre nombre',
-        // The MaterialStateProperty's value is a text style that is orange
-        // by default, but the theme's error color if the input decorator
-        // is in its error state.
+        labelText: '',
         labelStyle: MaterialStateTextStyle.resolveWith(
           (Set<MaterialState> states) {
-            final Color color = states.contains(MaterialState.error)
-                ? Theme.of(context).colorScheme.error
-                : Colors.orange;
-            return TextStyle(color: color, letterSpacing: 1.3);
+            return TextStyle(color: Colors.black, letterSpacing: 1.3);
           },
         ),
       ),
-      keyboardType: TextInputType.number, // Only allows numeric input
+      keyboardType: TextInputType.numberWithOptions(signed: true), // Allows negative numbers
       inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.digitsOnly // Only allows digits
+        FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]*')) // Allows digits and a leading negative sign
       ],
       autovalidateMode: AutovalidateMode.always,
+
     );
-    // 
   }
 }

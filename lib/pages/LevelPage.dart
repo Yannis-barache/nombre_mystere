@@ -54,15 +54,8 @@ class _LevelPageState extends State<LevelPage> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                levelBD.showColumns();
-                levelBD.insertLevel();
-                fetchLevels();
-              },
-              child: const Text('Refresh'),
-            ),
             FutureBuilder<List>(
               future: levels,
               builder: (context, snapshot) {
