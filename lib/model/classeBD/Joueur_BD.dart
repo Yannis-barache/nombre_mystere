@@ -4,6 +4,9 @@ import 'package:nombre_mystere/model/classe/joueur.dart';
 import 'package:nombre_mystere/model/sql/bd.dart';
 import 'package:nombre_mystere/const.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:nombre_mystere/model/classe/score.dart';
+import 'package:nombre_mystere/model/classeBD/Score_BD.dart';
+
 
 class JoueurBD{
 
@@ -122,7 +125,7 @@ Future<int> loginUser(String username) async {
   }
 }
 
-Future<int> unlockNextLevel(nbEssai) async{
+Future<int> unlockNextLevel(idNiv,nbEssai) async{
   if (leJoueur.id == -1) {
     return -1;
   }
@@ -135,8 +138,13 @@ Future<int> unlockNextLevel(nbEssai) async{
     if (leJoueur.currLevel >= maxLevel) {
       return 1;
     }
-    await db.rawQuery("UPDATE JOUEUR SET currentLevel = currentLevel + 1 WHERE id = ${leJoueur.id}"); 
-    leJoueur.currLevel += 1;
+
+    ScoreBD().insertScore(Score(idScore: 1,idLevel: idNiv, idUser: leJoueur.id, nbEssai: nbEssai));
+
+    if (idNiv >= leJoueur.currLevel) {
+      leJoueur.currLevel = idNiv+1;
+    }
+    await db.rawQuery("UPDATE JOUEUR SET currentLevel = ${leJoueur.currLevel} WHERE id = ${leJoueur.id}");
     return 1;
 
   } catch (e) {

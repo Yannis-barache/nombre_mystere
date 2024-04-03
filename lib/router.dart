@@ -60,12 +60,13 @@ class AppRouter {
             },
           ),
           GoRoute(
-            path: 'gameover/:result/:nbEssais',
+            path: 'gameover/:idNiv/:result/:nbEssais',
             parentNavigatorKey: _goRouterKey,
             builder: (context, state) {
+              final int idNiv = int.parse(state.pathParameters['idNiv']!);
               final String result = state.pathParameters['result']!;
               final int nbEssais = int.parse(state.pathParameters['nbEssais']!);
-              return GameOver(result: result,nbEssais: nbEssais);
+              return GameOver(result: result,nbEssais: nbEssais, idNiveau: idNiv);
             },
           ),
         ],

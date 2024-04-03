@@ -48,6 +48,7 @@ class _LevelPageState extends State<LevelPage> {
 
   @override
   Widget build(BuildContext context) {
+    log("Niveaux du joueur" +leJoueur.currLevel.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Level'),

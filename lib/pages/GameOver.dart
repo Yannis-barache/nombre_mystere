@@ -6,9 +6,10 @@ import 'package:nombre_mystere/const.dart';
 import 'package:nombre_mystere/model/classeBD/Joueur_BD.dart';
 
 class GameOver extends StatelessWidget {
+  final int idNiveau;
   final String result;
   final int nbEssais;
-  GameOver({Key? key,required this.result, required this.nbEssais}) : super(key: key);
+  GameOver({Key? key,required this.idNiveau, required this.result, required this.nbEssais}) : super(key: key);
 
   final Map<String, Map<String,String>> _result = {
     'win': {
@@ -25,7 +26,7 @@ class GameOver extends StatelessWidget {
   
 
   void _win() {
-    JoueurBD().unlockNextLevel(nbEssais);
+    JoueurBD().unlockNextLevel(idNiveau,nbEssais);
   }
 
         
