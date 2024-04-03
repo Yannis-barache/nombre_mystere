@@ -2,10 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:nombre_mystere/model/Jeu.dart';
+import 'package:nombre_mystere/const.dart';
+import 'package:nombre_mystere/model/classe/Jeu.dart';
 import 'package:flutter/services.dart';
+import 'package:nombre_mystere/model/classeBD/Score_BD.dart';
 import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
 import 'package:nombre_mystere/style/input.dart';
+
+import '../model/classe/Score.dart';
 
 class PageGame extends StatefulWidget {
   final int idNiveau;
@@ -45,6 +49,8 @@ class _PageGameState extends State<PageGame> {
         minNiveau = value.rangeMin;
         nombreMystere = Jeu.generateNombre(minNiveau!, maxNiveau!);
         essaisMax = value.nbEssais;
+        essais = essaisMax!;
+        log('Nombre mystère : $nombreMystere');
         min = minNiveau;
         max = maxNiveau;
       });

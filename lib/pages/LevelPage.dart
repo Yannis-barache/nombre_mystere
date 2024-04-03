@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nombre_mystere/const.dart';
 import 'package:nombre_mystere/model/classeBD/Level_BD.dart';
 
 class LevelPage extends StatefulWidget {
@@ -10,7 +13,7 @@ class LevelPage extends StatefulWidget {
 }
 
 class _LevelPageState extends State<LevelPage> {
-
+  String? message;
   Future<List>? levels;
   final LevelBD levelBD = LevelBD();
 
@@ -33,6 +36,16 @@ class _LevelPageState extends State<LevelPage> {
     });
   }
 
+  void goTolevel(int nbLevel) {
+    if (nbLevel <= leJoueur.currLevel) {
+      context.go('/jeu/$nbLevel');
+    }else{
+      setState(() {
+        message = 'Vous devez finir le niveau ${leJoueur.currLevel} pour accéder à ce niveau';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,32 +57,49 @@ class _LevelPageState extends State<LevelPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             FutureBuilder<List>(
-          future: levels,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Column(
-                children: snapshot.data!.expand((e) => [
-                  ElevatedButton(
-                    onPressed: () {
-                      context.go('/jeu/${e.id}');
-                    },
-                    child: Text(e.nomLevel),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.white,
-                    )
-
-                  ),
-                  const SizedBox(height: 20),
-                ]).toList(),
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-        ),
-
-
+              future: levels,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: snapshot.data!.map((e) {
+                      bool isAccessible = e.id <= leJoueur.currLevel;
+                      return ElevatedButton(
+                        onPressed: isAccessible ? () {
+                          log('Level: ${e.id} > ${leJoueur.currLevel}  :  ${e.id < leJoueur.currLevel ? 'true' : 'false'}');
+                          goTolevel(e.id);
+                        } : null,
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            isAccessible ? Colors.green : const Color(0xD58690),
+                          ),
+                        ),
+                        child: Text(e.nomLevel),
+                      );
+                    }).toList(),
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+            if (message != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        message!,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

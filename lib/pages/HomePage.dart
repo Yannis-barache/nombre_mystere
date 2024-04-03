@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Jouer'),
                   ),
                   ElevatedButton(
-                    onPressed: () => goIfUser('/regles'),
+                    onPressed: () => goIfUser('/score/${leJoueur.id}'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white, backgroundColor: Colors.black,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

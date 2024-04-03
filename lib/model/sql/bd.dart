@@ -17,7 +17,7 @@ class BD {
   Future<Database> get database async {
     if (_database != null) return _database!;
 
-    _database = await _initDB('ttttt.db');
+    _database = await _initDB('laBD.db');
     return _database!;
   }
 
@@ -33,13 +33,7 @@ class BD {
 
   Future<void> createDB(Database db, int version) async {
     try {
-      await db.execute(
-        '''CREATE TABLE JOUEUR(
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          pseudo TEXT NOT NULL UNIQUE
-        )'''
-      );
-
+      log('Table created I');
       await db.execute(
         '''CREATE TABLE DIFFICULTE(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +44,16 @@ class BD {
           avecFloat BOOLEAN NOT NULL
         )'''
       );
-
+      log('Table created II');
+      await db.execute(
+        '''CREATE TABLE JOUEUR(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              pseudo TEXT NOT NULL UNIQUE,
+              currentLevel INTEGER NOT NULL DEFAULT 1,
+              FOREIGN KEY(currentLevel) REFERENCES DIFFICULTE(idLevel)
+          )'''
+      );
+      log('Table created III');
       await db.execute('''
         CREATE TABLE Score(
           idScore INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,9 +65,12 @@ class BD {
         )
       ''');
 
-      LevelBD().insertLevel();
-      JoueurBD().insertTestJoueur();
-      ScoreBD().insertTestScore();
+       LevelBD().insertLevel();
+       JoueurBD().insertTestJoueur();
+       ScoreBD().insertTestScore();
+
+      log('Base de données créée avec succès');
+
     } catch (e) {
       log(e.toString());
     }

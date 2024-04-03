@@ -11,6 +11,8 @@ class Score{
     required this.nbEssai,
   });
 
+
+
   factory Score.fromJson(Map<String, dynamic> json) {
     return Score(
       idScore: json['idScore'],
