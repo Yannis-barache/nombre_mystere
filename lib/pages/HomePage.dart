@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nombre_mystere/const.dart';
+import 'dart:developer';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _HomePageState extends State<HomePage> {
       context.go('/login');
     }
   }
+  log("Connecté "+ isUserConnected().toString());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -73,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Text(
-                    'Bienvenue sur notre appli',
+                    isUserConnected() ? 'Bienvenue ${leJoueur.pseudo}' : 'Bienvenue sur notre appli',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   ElevatedButton(

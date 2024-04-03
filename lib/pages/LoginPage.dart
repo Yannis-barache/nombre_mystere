@@ -45,6 +45,7 @@ class LoginPage extends StatelessWidget {
               onPressed: () {
                 // vérifier si le joueur est connecté
                 var etat = connecteUser(_controller.text);
+                log(leJoueur.toString());
                 debugPrint('Etat : $etat');
                 if (etat == 0) {
                   // si le joueur est connecté, on le redirige vers la page d'accueil
